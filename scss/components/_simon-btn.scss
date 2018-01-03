@@ -21,17 +21,30 @@
 
   &.green {
     background-color: green;
+    &.lit{
+      background-color: lighten(green, 50%);
+    }
   }
 
   &.red {
     background-color: red;
+    &.lit{
+      background-color: lighten(red, 35%);
+    }
   }
 
   &.yellow{
     background-color: yellow;
+    &.lit{
+      background-color: lighten(yellow, 35%);
+    }
   }
 
   &.blue {
     background-color: blue;
+    &.lit{
+      background-color: lighten(blue, 35%);
+    }
   }
+
 }

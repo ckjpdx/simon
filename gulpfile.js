@@ -8,17 +8,19 @@ var del = require('del');
 var jshint = require('gulp-jshint');
 var buildProduction = utilities.env.production;
 
-var lib = require('bower-files')({
-  "overrides":{
-    "bootstrap" : {
-      "main": [
-        "less/bootstrap.less",
-        "dist/css/bootstrap.css",
-        "dist/js/bootstrap.js"
-      ]
+var lib = require('bower-files')(
+  {
+    "overrides":{
+      "bootstrap" : {
+        "main": [
+          "less/bootstrap.less",
+          "dist/css/bootstrap.css",
+          "dist/js/bootstrap.js"
+        ]
+      }
     }
   }
-});
+);
 
 var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
@@ -40,7 +42,7 @@ gulp.task('jsBrowserify', ['concatInterface'], function(){
   return browserify({ entries: ['./tmp/allConcat.js'] })
   .bundle()
   .pipe(source('app.js'))
-  .pipe(gulp.des('./build/js'));
+  .pipe(gulp.dest('./build/js'));
 });
 
 gulp.task('minifyScripts', ['jsBrowserify'], function(){
@@ -89,10 +91,14 @@ gulp.task('serve', ['build'], function(){
   gulp.watch(['js/*.js'], ['jsBuild']);
   gulp.watch(['bower.json'], ['bowerBuild']);
   gulp.watch(['*.html'], ['htmlBuild']);
-  gulp.watch("scss/*.scss", ['cssBuild']);
+  gulp.watch(['scss/main.scss', 'scss/**/*.scss'], ['cssBuild']);
 });
 
 gulp.task('jsBuild', ['jsBrowserify', 'jshint'], function(){
+  browserSync.reload();
+});
+
+gulp.task('bowerBuild', ['bower'], function(){
   browserSync.reload();
 });
 
